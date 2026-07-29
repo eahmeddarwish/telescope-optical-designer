@@ -17,7 +17,7 @@
 
 </div>
 
-![Telescope ray diagram](docs/hero.png)
+![Telescope ray diagram](docs/telescope-optical-designer.png)
 
 ---
 
