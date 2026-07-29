@@ -1,81 +1,107 @@
 <div align="center">
 
-# Telescope Optical Designer (MATLAB)
+# 🔭 Telescope Optical Designer
 
-**Design a refracting telescope from its lenses — get the magnification, the
-tube length, the ray-transfer matrix, and a ray diagram.**
+### Design a Refracting Telescope from Its Lenses — Magnification, Tube Length, ABCD Matrix & Ray Diagram
 
-A general MATLAB tool for two-lens refracting telescopes (Galilean and
-Keplerian). Give it focal lengths — or lens radii and a refractive index — and
-it returns the angular magnification, the afocal lens spacing, the ABCD system
-matrix, and a paraxial ray diagram.
+![MATLAB](https://img.shields.io/badge/MATLAB-%2F%20Octave-orange?logo=mathworks&logoColor=white)
+![Domain](https://img.shields.io/badge/Domain-Optics-1f6feb)
+![Type](https://img.shields.io/badge/Type-Simulation-8957e5)
+[![License: MIT](https://img.shields.io/badge/License-MIT-00C896.svg)](LICENSE)
+[![GitHub](https://img.shields.io/badge/GitHub-eahmeddarwish-181717?logo=github)](https://github.com/eahmeddarwish/telescope-optical-designer)
+![Status](https://img.shields.io/badge/status-corrected%20%26%20verified-brightgreen)
 
-![Language](https://img.shields.io/badge/language-MATLAB%20%2F%20Octave-orange)
-![Domain](https://img.shields.io/badge/domain-Optics-1f6feb)
-![Type](https://img.shields.io/badge/type-simulation-8957e5)
-![License](https://img.shields.io/badge/license-MIT-green)
+**Built by [Ahmed Darwish](mailto:eahmeddarwish@gmail.com)**
+
+[📖 Documentation](#-corrected-physics--الفيزياء-المصحّحة) · [⚠️ Honest Limitations](#-honest-limitations--محدوديات-صادقة) · [⭐ Star on GitHub](https://github.com/eahmeddarwish/telescope-optical-designer)
 
 </div>
 
----
-
-## Overview
-
-**EN —** This tool models a refracting telescope as two thin lenses and works
-out everything that matters: the **angular magnification** `M = -f_obj/f_eye`,
-the **afocal spacing** `d = f_obj + f_eye`, and the **ABCD ray-transfer
-matrix** of the whole system. It supports both **Galilean** telescopes
-(diverging eyepiece, upright image) and **Keplerian** telescopes (converging
-eyepiece, inverted image), and it can start from either focal lengths or from
-lens radii via the lensmaker's equation. It draws a paraxial ray diagram that
-shows the afocal property (parallel rays in, parallel rays out).
-
-**AR —** الأداة بتمثّل التلسكوب الكاسر بعدستين رفيعتين وبتحسب كل المهم: **التكبير
-الزاوي** `M = -f_obj/f_eye`، و**المسافة الأفوكال** بين العدستين
-`d = f_obj + f_eye`، و**مصفوفة نقل الشعاع (ABCD)** للنظام كله. بتدعم النوع
-**الجاليلي** (عينية مقعّرة، صورة معتدلة) والنوع **الكبلري** (عينية محدّبة، صورة
-مقلوبة)، وتقدر تبدأ من الأبعاد البؤرية مباشرةً أو من أنصاف أقطار العدسات عبر
-معادلة صانع العدسات. وبترسم مخطط أشعة يوضّح خاصية الأفوكال (أشعة متوازية تدخل،
-أشعة متوازية تخرج).
+![Telescope ray diagram](docs/hero.png)
 
 ---
 
-## ✨ What it computes
+## 🌍 Overview | نظرة عامة
+
+**[English]**
+A general MATLAB / Octave tool for two-lens refracting telescopes. Give it focal
+lengths — or lens radii and a refractive index — and it returns the **angular
+magnification** `M = -f_obj/f_eye`, the **afocal spacing** `d = f_obj + f_eye`,
+the **ABCD ray-transfer matrix** of the whole system, and a paraxial **ray
+diagram**. It handles both **Galilean** telescopes (diverging eyepiece, upright
+image) and **Keplerian** telescopes (converging eyepiece, inverted image).
+
+This is a from-scratch rebuild of an earlier version that was *physically
+incorrect*. The corrections are documented below —
+[Corrected physics](#-corrected-physics--الفيزياء-المصحّحة).
+
+**[العربية]**
+أداةٌ عامة بـ MATLAB / Octave للتلسكوبات الكاسرة بعدستين. أعطِها الأبعاد البؤرية
+— أو أنصاف أقطار العدسات ومعامل الانكسار — فتُرجع **التكبير الزاوي**
+`M = -f_obj/f_eye`، و**المسافة الأفوكال** `d = f_obj + f_eye`، و**مصفوفة نقل
+الشعاع (ABCD)** للنظام كله، و**مخطط أشعة** بارَاكسي. تدعم النوع **الجاليلي**
+(عينية مقعّرة، صورة معتدلة) والنوع **الكبلري** (عينية محدّبة، صورة مقلوبة).
+
+هذه إعادة بناءٍ كاملة لنسخةٍ سابقة كانت *غير صحيحةٍ فيزيائيًا*. التصحيحات موثّقةٌ
+أدناه — [الفيزياء المصحّحة](#-corrected-physics--الفيزياء-المصحّحة).
+
+---
+
+## ✨ What it computes | ماذا يحسب
 
 | Output | Meaning |
-|--------|---------|
-| `magnification` | Angular magnification `M = -f_obj/f_eye` (sign = orientation). |
-| `separation` | Afocal lens spacing `d = f_obj + f_eye`. |
-| `ABCD` | 2×2 system ray-transfer matrix (`L_eye · Gap(d) · L_obj`). |
-| `afocal_residual` | The `C` element — should be ~0, confirming an afocal system. |
-| `upright` | True for Galilean (upright), false for Keplerian (inverted). |
+|---|---|
+| 🔎 `magnification` | Angular magnification `M = -f_obj/f_eye` (sign = orientation) |
+| 📏 `separation` | Afocal lens spacing `d = f_obj + f_eye` |
+| 🧮 `ABCD` | 2×2 system ray-transfer matrix (`L_eye · Gap(d) · L_obj`) |
+| ✅ `afocal_residual` | The `C` element — should be ~0, confirming an afocal system |
+| 🔄 `upright` | True for Galilean (upright), false for Keplerian (inverted) |
 
 ---
 
-## 🧠 Corrected Physics (what was wrong before, and why)
+## 🔬 Corrected physics | الفيزياء المصحّحة
 
-This is a from-scratch rebuild of an earlier version that was **physically
-incorrect**. The corrections:
+**[English]**
+This rebuild fixes four real errors from the earlier version:
 
 1. **Lensmaker division-by-zero.** The old code set both radii equal
-   (`R1 = R2`), which makes `1/R1 - 1/R2 = 0` and the focal length **infinite**
-   — every downstream number was invalid. A real lens needs surfaces of
-   different curvature; `lens_focal_length()` now enforces this and uses the
-   proper Cartesian sign convention.
+   (`R1 = R2`), making `1/R1 - 1/R2 = 0` and the focal length **infinite** —
+   every downstream number was invalid. `lens_focal_length()` now enforces
+   different curvatures and uses the proper Cartesian sign convention.
 2. **Galilean eyepiece must diverge.** A Galilean telescope needs a **negative**
    (diverging) eyepiece; the old code used two identical converging lenses. The
-   spacing is `d = f_obj + f_eye`, which for a negative eyepiece is *shorter*
-   than the objective focal length.
-3. **Magnification was never computed.** The single most important output of a
-   telescope — its angular magnification — was missing entirely. It is now
-   `M = -f_obj/f_eye`, and it equals the `D` element of the afocal system matrix.
+   spacing `d = f_obj + f_eye` is then *shorter* than the objective focal length.
+3. **Magnification was never computed.** The single most important output was
+   missing. It is now `M = -f_obj/f_eye`, and it equals the `D` element of the
+   afocal system matrix.
 4. **Correct ABCD matrix.** The system matrix is built from the lens **spacing**,
-   not each lens's own thickness, and the tool reports the `C` element so you can
+   not each lens's own thickness, and the `C` element is reported so you can
    confirm the design is genuinely afocal.
+
+> Verified numerically: for `f_obj = 900, f_eye = -100`, the tool gives
+> `M = +9.00×` (upright), `d = 800`, and `C ≈ 0` — a true afocal telescope.
+
+**[العربية]**
+إعادة البناء تصلح أربعة أخطاءٍ حقيقيةٍ من النسخة السابقة:
+
+1. **قسمةٌ على صفر في معادلة العدسة.** الكود القديم جعل نصفَي القطر متساويين
+   (`R1 = R2`)، فصار `1/R1 - 1/R2 = 0` والبعد البؤري **لا نهائيًّا** — وكل رقمٍ
+   بعده باطل. `lens_focal_length()` الآن يفرض اختلاف الانحناءَين ويستخدم اصطلاح
+   الإشارة الكارتيزي الصحيح.
+2. **عينية الجاليلي يجب أن تكون مفرّقة.** التلسكوب الجاليلي يحتاج عينيةً **سالبة**
+   (مقعّرة)؛ الكود القديم استخدم عدستين محدّبتين متطابقتين. عندها تكون المسافة
+   `d = f_obj + f_eye` *أقصر* من البعد البؤري للعدسة الشيئية.
+3. **التكبير لم يُحسب أبدًا.** أهم ناتجٍ كان مفقودًا. صار الآن `M = -f_obj/f_eye`،
+   وهو يساوي عنصر `D` في مصفوفة النظام الأفوكال.
+4. **مصفوفة ABCD صحيحة.** مصفوفة النظام مبنيةٌ على **المسافة** بين العدستين لا على
+   سُمك كل عدسة، وعنصر `C` معروضٌ لتأكيد أن التصميم أفوكال فعلًا.
+
+> تحقّق عددي: عند `f_obj = 900, f_eye = -100` تعطي الأداة `M = +9.00×` (معتدلة)،
+> `d = 800`، و`C ≈ 0` — تلسكوب أفوكال حقيقي.
 
 ---
 
-## 🚀 Quick Start
+## 🚀 Quick Start | البدء السريع
 
 ```matlab
 % Design one telescope
@@ -92,57 +118,95 @@ Works in **MATLAB** and largely in **GNU Octave** (free).
 
 ---
 
-## 📁 Project Structure
+## ⚙️ Configuration | الإعدادات
 
-```
-telescope-optical-designer/
-├── README.md
-└── matlab/
-    ├── lens_focal_length.m   % lensmaker's equation (with sign checks)
-    ├── telescope_design.m    % core design: M, spacing, ABCD
-    ├── draw_telescope.m      % paraxial ray diagram (reusable in a GUI)
-    └── run_examples.m        % batch of Galilean + Keplerian cases
-```
+A telescope is described by a `cfg` struct:
 
-The design and drawing functions are deliberately separated from the batch
-script so the **same two functions can back a GUI**: a form collects `type`,
-`f_obj`/`f_eye` (or radii + n), calls `telescope_design()`, and renders the
-result with `draw_telescope(cfg, res, ax)` into a GUI axes.
+| Field | Notes |
+|---|---|
+| `type` | `'galilean'` or `'keplerian'` |
+| `f_obj` / `f_eye` | Focal lengths (mm); `f_eye < 0` Galilean, `> 0` Keplerian |
+| `obj` / `eye` | *(alternative)* `struct('R1',..,'R2',..,'n',..)` to derive focal lengths |
 
 ---
 
-## ⚠️ Honest Limitations
+## 📁 Project Structure | هيكل المشروع
 
-- **Paraxial, thin-lens model.** It ignores lens thickness, aberrations
-  (spherical, chromatic), field of view, and finite aperture. It is a design
-  and teaching tool, not full optical-design software.
+```
+.
+├── matlab/
+│   ├── lens_focal_length.m   # lensmaker's equation (with sign checks)
+│   ├── telescope_design.m    # core design: M, spacing, ABCD
+│   ├── draw_telescope.m      # paraxial ray diagram (reusable in a GUI)
+│   └── run_examples.m        # batch of Galilean + Keplerian cases
+├── docs/
+│   └── hero.png
+└── LICENSE
+```
+
+The design and drawing functions are separated from the batch script so the
+**same two functions can back a GUI**: a form collects `type`, `f_obj`/`f_eye`
+(or radii + n), calls `telescope_design()`, and renders with
+`draw_telescope(cfg, res, ax)` into a GUI axes.
+
+---
+
+## ⚠️ Honest limitations | محدوديات صادقة
+
+**[English]**
+- **Paraxial, thin-lens model.** Ignores lens thickness, aberrations (spherical,
+  chromatic), field of view, and finite aperture. A design/teaching tool, not
+  full optical-design software.
 - **Two-lens systems only** (objective + eyepiece).
-- **No stray-light, coatings, or real glass dispersion** — refractive index is a
-  single value per lens.
+- **Single refractive index per lens** — no real glass dispersion or coatings.
+
+**[العربية]**
+- **نموذجٌ بارَاكسي رفيع العدسة.** يتجاهل سُمك العدسة والزيوغ (الكروي واللوني)
+  ومجال الرؤية والفتحة المحدودة. أداة تصميم/تعليم، لا برنامج تصميمٍ ضوئيٍّ كامل.
+- **أنظمة عدستين فقط** (شيئية + عينية).
+- **معامل انكسارٍ واحدٍ لكل عدسة** — بلا تشتّتٍ زجاجيٍّ حقيقيٍّ أو طلاءات.
 
 ---
 
-## 🗺 Roadmap
+## 🗺️ Roadmap | خطط التطوير
 
-- **Phase 1 (done):** correct paraxial design (Galilean + Keplerian), ABCD
-  matrix, ray diagram, batch examples.
-- **Phase 2:** interactive GUI — enter parameters, get the design and drawing
-  live (the code is already structured for this).
-- **Phase 3:** add field of view, exit-pupil, and eye-relief calculations.
-- **Phase 4:** basic chromatic-aberration estimate from an Abbe number.
+- [x] **Phase 1** — Correct paraxial design (Galilean + Keplerian), ABCD matrix, ray diagram, batch examples *(current)*
+- [ ] **Phase 2** — Interactive GUI: enter parameters, get design + drawing live
+- [ ] **Phase 3** — Field of view, exit-pupil, and eye-relief calculations
+- [ ] **Phase 4** — Chromatic-aberration estimate from an Abbe number
 
 ---
 
-## 👤 Author
-
-**Ahmed Darwish** — engineering, Python, embedded systems, and AI.
-
-## 📄 License
-
-MIT.
+## 👤 Author | المطور
 
 <div align="center">
 
-⭐ **If this tool is useful, consider starring the repository on GitHub.**
+**Ahmed Darwish**
+
+*Electrical & Computer Engineer | Python · Arduino · Raspberry Pi · AI/ML*
+
+[![Email](https://img.shields.io/badge/Email-eahmeddarwish%40gmail.com-EA4335?logo=gmail&logoColor=white)](mailto:eahmeddarwish@gmail.com)
+[![GitHub](https://img.shields.io/badge/GitHub-eahmeddarwish-181717?logo=github)](https://github.com/eahmeddarwish)
+
+</div>
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see [LICENSE](LICENSE) for details.
+
+```
+MIT License — Copyright (c) 2026 Ahmed Darwish
+Free to use, modify, and distribute with attribution.
+```
+
+---
+
+<div align="center">
+
+⭐ **If this tool is useful, please give it a star on GitHub!** ⭐
+
+*Made with ❤️ by Ahmed Darwish*
 
 </div>
